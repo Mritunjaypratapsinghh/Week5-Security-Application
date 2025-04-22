@@ -1,9 +1,6 @@
 package com.week5.SecurityApp.SecurityApplication.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -17,4 +14,6 @@ public class PostEntity {
     private String name;
     private LocalDateTime createdAt;
 
+    @ManyToOne
+    private UserEntity author;
 }

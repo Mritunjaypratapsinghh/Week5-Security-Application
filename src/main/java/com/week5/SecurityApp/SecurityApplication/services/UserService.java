@@ -38,6 +38,9 @@ public class UserService implements UserDetailsService {
         });
     }
 
+    public UserEntity getUserByEmail(String email){
+        return userRepository.findByEmail(email).orElse(null);
+    }
 
     public UserDTO signUp(SignupDTO request) {
         Optional<UserEntity> user = userRepository.findByEmail(request.getEmail());
@@ -61,7 +64,8 @@ public class UserService implements UserDetailsService {
     }
 
 
-
-
+    public UserEntity save(UserEntity newUser) {
+        return userRepository.save(newUser);
+    }
 }
 

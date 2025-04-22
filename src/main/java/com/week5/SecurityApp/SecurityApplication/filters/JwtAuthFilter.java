@@ -60,18 +60,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if(userId!=null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserEntity user =userService.getUserById(userId);
-            Optional<SessionEntity> existingSession = sessionRepository.findByUser(user);
+//            Optional<SessionEntity> existingSession = sessionRepository.findByUser(user);
+//
+//            if(!existingSession.isPresent()){
+//                SessionEntity sessionEntity = new SessionEntity();
+//                sessionEntity.setUser(user);
+//                sessionEntity.setToken(token);
+//                sessionEntity.setCreatedAt(LocalDateTime.now());
+//                sessionEntity.setLastUpdated(LocalDateTime.now());
+//                sessionRepository.save(sessionEntity);
+//            }
 
-            if(!existingSession.isPresent()){
-                SessionEntity sessionEntity = new SessionEntity();
-                sessionEntity.setUser(user);
-                sessionEntity.setToken(token);
-                sessionEntity.setCreatedAt(LocalDateTime.now());
-                sessionEntity.setLastUpdated(LocalDateTime.now());
-                sessionRepository.save(sessionEntity);
-            }
-
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null,null);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
 
 
             authenticationToken.setDetails( new WebAuthenticationDetailsSource().buildDetails(request));
@@ -79,7 +79,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
 
-        filterChain.doFilter(request,response);}
+        filterChain.doFilter(request,response);
+
+        }
         catch (Exception exception){
         handlerExceptionResolver.resolveException(request,response,null,exception);
 

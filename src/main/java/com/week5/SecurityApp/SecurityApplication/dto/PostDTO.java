@@ -9,4 +9,5 @@ public class PostDTO {
     private Long id;
     private String name;
     private LocalDateTime createdAt;
+    private UserDTO author;
 }

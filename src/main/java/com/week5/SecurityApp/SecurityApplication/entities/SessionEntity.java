@@ -1,10 +1,8 @@
 package com.week5.SecurityApp.SecurityApplication.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 //@RequiredArgsConstructor
 public class SessionEntity {
 
@@ -19,21 +18,14 @@ public class SessionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
+    @ManyToOne
     private UserEntity user;
 
     @Column(nullable = false)
-    private String token;
+    private String refreshToken;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime lastUpdated;
-//
-//    @Column(name = "expires_at")
-//    private LocalDateTime expiresAt;
+    @CreationTimestamp
+    private LocalDateTime lastUsedAt;
 
     public SessionEntity(UserEntity user, String token) {
     }
