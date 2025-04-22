@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError,HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiError> handleAccessDeniedException(AccessDeniedException ex){
+        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN,ex.getLocalizedMessage(),null);
+        return new ResponseEntity<>(apiError,HttpStatus.FORBIDDEN);
+
+    }
 
 
 
