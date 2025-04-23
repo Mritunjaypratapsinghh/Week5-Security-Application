@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
+/**
+ * The type Api error.
+ */
 @Data
 @Builder
 @AllArgsConstructor

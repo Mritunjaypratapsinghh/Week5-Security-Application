@@ -13,18 +13,27 @@ import java.util.stream.Collectors;
 import static com.week5.SecurityApp.SecurityApplication.entities.enums.Permission.*;
 import static com.week5.SecurityApp.SecurityApplication.entities.enums.Role.*;
 
+/**
+ * The type Permission mapping.
+ */
 public class PermissionMapping {
 
-    private static final Map<Role, Set<Permission>> map =Map.of(
-            USER, Set.of(USER_VIEW,POST_VIEW),
-            CREATOR, Set.of(POST_CREATE,POST_UPDATE, USER_UPDATE),
-            ADMIN, Set.of(POST_CREATE,USER_UPDATE,POST_UPDATE,USER_DELETE,USER_CREATE,POST_DELETE)
+    private static final Map<Role, Set<Permission>> map = Map.of(
+            USER, Set.of(USER_VIEW, POST_VIEW),
+            CREATOR, Set.of(POST_CREATE, POST_UPDATE, USER_UPDATE),
+            ADMIN, Set.of(POST_CREATE, USER_UPDATE, POST_UPDATE, USER_DELETE, USER_CREATE, POST_DELETE)
     );
 
 
-    public static  Set<SimpleGrantedAuthority> getAuthoritiesForRole(Role role){
+    /**
+     * Gets authorities for role.
+     *
+     * @param role the role
+     * @return the authorities for role
+     */
+    public static Set<SimpleGrantedAuthority> getAuthoritiesForRole(Role role) {
         return map.get(role).stream().
-                map(permission -> new SimpleGrantedAuthority(permission.name()) )
+                map(permission -> new SimpleGrantedAuthority(permission.name()))
                 .collect(Collectors.toSet());
     }
 }

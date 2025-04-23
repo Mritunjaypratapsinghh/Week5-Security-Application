@@ -30,6 +30,9 @@ import static com.week5.SecurityApp.SecurityApplication.entities.enums.Permissio
 import static com.week5.SecurityApp.SecurityApplication.entities.enums.Role.ADMIN;
 import static com.week5.SecurityApp.SecurityApplication.entities.enums.Role.CREATOR;
 
+/**
+ * The type Web security config.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableTransactionManagement
@@ -43,6 +46,13 @@ public class WebSecurityConfig {
             "/posts", "/error", "/auth/**", "/home.html"
     };
 
+    /**
+     * Security filter chain security filter chain.
+     *
+     * @param httpSecurity the http security
+     * @return the security filter chain
+     * @throws Exception the exception
+     */
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -50,10 +60,10 @@ public class WebSecurityConfig {
 
                         .requestMatchers(publicRoutes).permitAll()
 
-                      .requestMatchers(HttpMethod.GET, "/post/**").permitAll()
-                      .requestMatchers(HttpMethod.POST,"/post").hasAnyRole(ADMIN.name(), CREATOR.name())
-                      .requestMatchers(HttpMethod.POST,"/post").hasAuthority(POST_CREATE.name())
-                      .requestMatchers(HttpMethod.DELETE,"/post/**").hasAuthority(POST_DELETE .name())
+                        .requestMatchers(HttpMethod.GET, "/post/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/post").hasAnyRole(ADMIN.name(), CREATOR.name())
+                        .requestMatchers(HttpMethod.POST, "/post").hasAuthority(POST_CREATE.name())
+                        .requestMatchers(HttpMethod.DELETE, "/post/**").hasAuthority(POST_DELETE.name())
                         .anyRequest().authenticated())
                 .csrf(csrfConfig -> csrfConfig.disable())
                 .sessionManagement(
@@ -65,11 +75,17 @@ public class WebSecurityConfig {
                         .successHandler(oAuth2SuccessHandler));
 
 
-
         return httpSecurity.build();
     }
 
 
+    /**
+     * Authentication manager authentication manager.
+     *
+     * @param config the config
+     * @return the authentication manager
+     * @throws Exception the exception
+     */
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

@@ -6,6 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Session entity.
+ */
 @Data
 @Entity
 @AllArgsConstructor
@@ -27,9 +30,20 @@ public class SessionEntity {
     @CreationTimestamp
     private LocalDateTime lastUsedAt;
 
+    /**
+     * Instantiates a new Session entity.
+     *
+     * @param user  the user
+     * @param token the token
+     */
     public SessionEntity(UserEntity user, String token) {
     }
 
+    /**
+     * Sets user id.
+     *
+     * @param userId the user id
+     */
     public void setUserId(Long userId) {
     }
 }

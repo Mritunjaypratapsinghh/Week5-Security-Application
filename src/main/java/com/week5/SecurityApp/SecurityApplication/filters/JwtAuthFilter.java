@@ -25,12 +25,22 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.logging.Handler;
 
+/**
+ * The type Jwt auth filter.
+ */
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserService userService;
     private final SessionRepository sessionRepository;
 
+    /**
+     * Instantiates a new Jwt auth filter.
+     *
+     * @param jwtService        the jwt service
+     * @param userService       the user service
+     * @param sessionRepository the session repository
+     */
     public JwtAuthFilter(JwtService jwtService,UserService userService,SessionRepository sessionRepository){
         this.jwtService = jwtService;
         this.userService = userService;
@@ -42,7 +52,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver handlerExceptionResolver;
 
-
+    /***
+     *
+     * @param request
+     * @param response
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try{
@@ -60,18 +77,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if(userId!=null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserEntity user =userService.getUserById(userId);
-//            Optional<SessionEntity> existingSession = sessionRepository.findByUser(user);
-//
-//            if(!existingSession.isPresent()){
-//                SessionEntity sessionEntity = new SessionEntity();
-//                sessionEntity.setUser(user);
-//                sessionEntity.setToken(token);
-//                sessionEntity.setCreatedAt(LocalDateTime.now());
-//                sessionEntity.setLastUpdated(LocalDateTime.now());
-//                sessionRepository.save(sessionEntity);
-//            }
 
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
 
 
             authenticationToken.setDetails( new WebAuthenticationDetailsSource().buildDetails(request));

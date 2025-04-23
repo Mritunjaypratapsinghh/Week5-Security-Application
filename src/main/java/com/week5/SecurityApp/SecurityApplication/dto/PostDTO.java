@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Post dto.
+ */
 @Data
 public class PostDTO {
     private Long id;

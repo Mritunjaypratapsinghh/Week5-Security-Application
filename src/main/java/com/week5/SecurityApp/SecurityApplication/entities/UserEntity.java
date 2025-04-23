@@ -2,6 +2,7 @@ package com.week5.SecurityApp.SecurityApplication.entities;
 
 import com.week5.SecurityApp.SecurityApplication.entities.enums.Permission;
 import com.week5.SecurityApp.SecurityApplication.entities.enums.Role;
+import com.week5.SecurityApp.SecurityApplication.entities.enums.SubscriptionPlan;
 import com.week5.SecurityApp.SecurityApplication.utils.PermissionMapping;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,6 +16,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * The type User entity.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,8 +38,17 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @Enumerated(EnumType.STRING)
+    private SubscriptionPlan subscriptionPlan = SubscriptionPlan.FREE;
 
 
+    /**
+     * Instantiates a new User entity.
+     *
+     * @param id       the id
+     * @param email    the email
+     * @param password the password
+     */
     public UserEntity(long id, String email, String password) {
         this.id = id;
         this.email = email;
@@ -45,15 +58,14 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<SimpleGrantedAuthority> authorities= new HashSet<>();
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         roles.forEach(role -> {
             Set<SimpleGrantedAuthority> permissions = PermissionMapping.getAuthoritiesForRole(role);
             authorities.addAll(permissions);
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.name()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
         });
         return authorities;
     }
-
 
     @Override
     public String getPassword() {

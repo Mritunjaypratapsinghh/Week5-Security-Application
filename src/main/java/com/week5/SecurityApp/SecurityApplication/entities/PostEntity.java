@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Post entity.
+ */
 @Entity
 @Data
 public class PostEntity {

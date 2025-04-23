@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Post service.
+ */
 @Slf4j
 @Service
 public class PostServiceImpl implements PostService {
@@ -23,12 +26,23 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
 
 
+    /**
+     * Instantiates a new Post service.
+     *
+     * @param modelMapper    the model mapper
+     * @param postRepository the post repository
+     */
     public PostServiceImpl(ModelMapper modelMapper, PostRepository postRepository) {
         this.modelMapper = modelMapper;
         this.postRepository = postRepository;
     }
 
 
+    /**
+     * Exist post by id.
+     *
+     * @param postId the post id
+     */
     public void existPostById(Long postId) {
         boolean exists = postRepository.existsById(postId);
         if (!exists) throw new ResourceNotFoundException("post with id " + postId + " does not exists");
@@ -55,10 +69,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO createNewPost(PostDTO request) {
-        UserEntity userEntity= (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        PostEntity requestEntity =modelMapper.map(request,PostEntity.class);
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PostEntity requestEntity = modelMapper.map(request, PostEntity.class);
         requestEntity.setAuthor(userEntity);
         PostEntity postEntity = postRepository.save(requestEntity);
-        return modelMapper.map(postEntity,PostDTO.class);
+        return modelMapper.map(postEntity, PostDTO.class);
     }
 }

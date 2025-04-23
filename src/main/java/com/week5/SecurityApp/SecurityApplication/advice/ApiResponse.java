@@ -7,25 +7,43 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Api response.
+ *
+ * @param <T> the type parameter
+ */
 @Data
 @Builder
 @AllArgsConstructor
-public class ApiResponse <T>{
+public class ApiResponse<T> {
 
     private LocalDateTime timestamp;
     private T data;
     private ApiError apiError;
 
-    public ApiResponse(){
+    /**
+     * Instantiates a new Api response.
+     */
+    public ApiResponse() {
         this.timestamp = LocalDateTime.now();
     }
 
-    public ApiResponse(T data){
+    /**
+     * Instantiates a new Api response.
+     *
+     * @param data the data
+     */
+    public ApiResponse(T data) {
         this();
         this.data = data;
     }
 
-    public ApiResponse(ApiError apiError){
+    /**
+     * Instantiates a new Api response.
+     *
+     * @param apiError the api error
+     */
+    public ApiResponse(ApiError apiError) {
         this();
         this.apiError = apiError;
     }
