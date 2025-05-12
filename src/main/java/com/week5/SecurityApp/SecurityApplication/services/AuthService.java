@@ -46,13 +46,9 @@ public class AuthService {
         UserEntity user = (UserEntity) authentication.getPrincipal();
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
-        sessionService.generateNewSession(user,refreshToken);
+        sessionService.generateNewSession(user, refreshToken);
         return new LoginResponseDTO(user.getId(), accessToken, refreshToken);
-
-
     }
-
-
     /**
      * Refresh token login response dto.
      *

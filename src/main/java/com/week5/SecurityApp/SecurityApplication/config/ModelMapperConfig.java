@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ModelMapperConfig {
 
     /**
-     * Get model mapper model mapper.
+     * Get model mapper.
      *
      * @return the model mapper
      */
